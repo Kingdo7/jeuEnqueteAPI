@@ -1,7 +1,7 @@
 <?php
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\SecurityService;
+use Symfony\Component\HttpFoundation\Response;
 
 class SecurityService {
     public function CheckToken($token){
