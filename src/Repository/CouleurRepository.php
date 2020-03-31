@@ -12,10 +12,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Couleur[]    findAll()
  * @method Couleur[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CouleurRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class CouleurRepository extends ServiceEntityRepository {
+    public function __construct(ManagerRegistry $registry)    {
         parent::__construct($registry, Couleur::class);
     }
 

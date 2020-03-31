@@ -12,15 +12,12 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Suspect[]    findAll()
  * @method Suspect[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SuspectRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class SuspectRepository extends ServiceEntityRepository {
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Suspect::class);
     }
 
-    public function findByGenreAgeSup($genre, $age)
-    {
+    public function findByGenreAgeSup($genre, $age) {
         return $this->createQueryBuilder('s')
             ->where('s.genre = :genre')
             ->setParameter('genre', $genre)
