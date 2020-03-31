@@ -4,11 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Suspect;
 use App\Services\SecurityService;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use App\Services\SerialisationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +14,7 @@ class SupectController extends AbstractController {
     /**
      * @Route("{token}/suspect", name="Suspects")
      */
-    public function findAll(EntityManagerInterface $entityManager, SecurityService $securite, $token) {
+    public function findAll(EntityManagerInterface $entityManager, SecurityService $securite, SerialisationService $serializer, $token) {
         // vérification de l'accès
         $autorise = $securite->CheckToken($token);
 
@@ -28,13 +24,8 @@ class SupectController extends AbstractController {
 
         // Récupération des suspect
         $repSuspect = $this->getDoctrine()->getRepository(Suspect::Class);
-        $listSuspect = $repSuspect->findAll();     
-
-        // dd($listSuspect);
-        $encoders = [new XmlEncoder(), new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizers, $encoders);        
-        $jsonContent = $serializer->serialize($listSuspect, 'json');            
+        $listSuspect = $repSuspect->findAll();                     
+        $jsonContent = $serializer->jsonSerialise($listSuspect, 'json');            
 
         // Encodage des suspects en json
         $response = new Response();
@@ -65,7 +56,7 @@ class SupectController extends AbstractController {
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);        
-        $jsonContent = $serializer->serialize($listSuspect, 'json');        
+        $jsonContent = $serializer->jsonSerialise($listSuspect, 'json');         
 
        // Encodage du vetement en json
        $response = new Response();
@@ -89,8 +80,9 @@ class SupectController extends AbstractController {
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);        
-        $jsonContent = $serializer->serialize($listSuspect, 'json');        
-
+        //$jsonContent = $serializer->serialize($listSuspect, 'json');
+        $listSuspect = $this->jsonSerialise($jsonContent);
+        $jsonContent = $serializer->jsonSerialise($listSuspect, 'json'); 
        // Encodage du vetement en json
        $response = new Response();
        $response->setContent($jsonContent);

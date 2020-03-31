@@ -5,10 +5,8 @@ namespace App\Services;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class SecurityService
-{
-    public function CheckToken($token)
-    {
+class SecurityService {
+    public function CheckToken($token) {
         if($token != 12345) {
 
             $response = new Response();
